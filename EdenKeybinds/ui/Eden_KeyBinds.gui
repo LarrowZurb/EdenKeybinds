@@ -1,0 +1,524 @@
+﻿
+#include "\Lars\EdenKeybinds\ui\Eden_KeyBinds_IDC.hpp"
+#include "\a3\ui_f\hpp\defineresincl.inc"
+
+// Pixel grid
+#define pixelScale	0.50
+#define GRID_W (pixelW * pixelGrid * pixelScale)
+#define GRID_H (pixelH * pixelGrid * pixelScale)
+
+class LARs_EdenKeyBinds_bind : ctrlControlsGroupNoScrollbars
+{
+	x = 0;
+	y = 0;
+	w = 0.223929 * safezoneW;
+	h = Eden_KeyBinds_BindGrp_height;
+
+	class controls
+	{
+
+		class KeyDescription: ctrlStatic
+		{
+			idc = Eden_KeyBinds_BindDescrip;
+
+			x = 0;
+			y = 0;
+			w = 0.129643 * safezoneW;
+			h = 0.022 * safezoneH;
+
+			text = "Key description";
+		};
+
+		class BoundKey: ctrlStatic
+		{
+			idc = Eden_KeyBinds_BindKey;
+
+			x = 0.121572 * safeZoneW;
+			y = 0;
+			w = 0.0306429 * safezoneW;
+			h = 0.022 * safezoneH;
+
+			text = "";
+		};
+
+		class BindingBtn: ctrlActivePicture
+		{
+			idc = Eden_KeyBinds_BindAction;
+
+			x = 0;
+			y = 0;
+			w = 0.1492859 * safezoneW;
+			h = 0.022 * safezoneH;
+
+			text = "#(rgb,8,8,3)color(0,0,0,0)";
+
+			onMouseButtonDblClick = "[ 'BIND', [ 'GET', _this ] ] call LARs_fnc_EKB_EdenKeybinds";
+			onMouseButtonClick = "[ 'BIND', [ 'SELECT', _this ] ] call LARs_fnc_EKB_EdenKeybinds";
+			onMouseEnter = "( _this select 0 ) ctrlsetText '#(rgb,8,8,3)color(0,1,0,0.25)'";
+			onMouseExit = "( _this select 0 ) ctrlsetText '#(rgb,8,8,3)color(0,0,0,0)'";
+		};
+
+		class CheckShft: ctrlCheckbox
+		{
+			idc = Eden_KeyBinds_CheckShft;
+
+			x = 0.161072 * safeZoneW;
+			y = 0;
+			w = 0.0117857 * safezoneW;
+			h = 0.022 * safezoneH;
+
+			onCheckedChanged = "[ 'BIND', [ 'CHECK', _this ] ] call LARs_fnc_EKB_EdenKeybinds";
+		};
+
+		class CheckCtrl: ctrlCheckbox
+		{
+			idc = Eden_KeyBinds_CheckCtrl;
+
+			x = 0.184643 * safeZoneW;
+			y = 0;
+			w = 0.0117857 * safezoneW;
+			h = 0.022 * safezoneH;
+
+			onCheckedChanged = "[ 'BIND', [ 'CHECK', _this ] ] call LARs_fnc_EKB_EdenKeybinds";
+		};
+
+		class CheckAlt: ctrlCheckbox
+		{
+			idc = Eden_KeyBinds_CheckAlt;
+
+			x = 0.208215 * safeZoneW;
+			y = 0;
+			w = 0.0117857 * safezoneW;
+			h = 0.022 * safezoneH;
+
+			onCheckedChanged = "[ 'BIND', [ 'CHECK', _this ] ] call LARs_fnc_EKB_EdenKeybinds";
+		};
+	};
+};
+
+
+
+class LARs_EdenKeyBinds_UI
+{
+	idd = Eden_KeyBinds_IDD;
+
+	onLoad = "[ 'INIT', _this ] call LARs_fnc_EKB_EdenKeybinds";
+
+	class controlsBackground
+	{
+
+		class DisableBackGrnd: ctrlStaticBackgroundDisable
+		{
+			idc = -1;
+
+			x = safeZoneXAbs;
+			y = safeZoneY;
+			w = safeZoneWAbs;
+			h = safeZoneH;
+		};
+
+		//Main Title and backgrounds
+		class TitleBackground: ctrlStatic
+		{
+			idc = -1;
+
+			x = 0.378214 * safezoneW + safezoneX;
+			y = 0.236 * safezoneH + safezoneY;
+			w = 0.239643 * safezoneW;
+			h = 0.022 * safezoneH;
+			colorBackground[] = {"(profilenamespace getvariable ['GUI_BCG_RGB_R',0.13])","(profilenamespace getvariable ['GUI_BCG_RGB_G',0.54])","(profilenamespace getvariable ['GUI_BCG_RGB_B',0.21])","(profilenamespace getvariable ['GUI_BCG_RGB_A',0.8])"};
+		};
+
+		class Title: ctrlStatic
+		{
+			idc = -1;
+
+			text = "Configure Eden keys"; //--- ToDo: Localize;
+			x = 0.378214 * safezoneW + safezoneX;
+			y = 0.236 * safezoneH + safezoneY;
+			w = 0.188571 * safezoneW;
+			h = 0.022 * safezoneH;
+			colorText[] = {0.95,0.95,0.95,1};
+		};
+
+		class Background: ctrlStatic
+		{
+			idc = -1;
+
+			x = 0.378214 * safezoneW + safezoneX;
+			y = 0.258 * safezoneH + safezoneY;
+			w = 0.239643 * safezoneW;
+			h = 0.484 * safezoneH;
+			colorBackground[] = {0.2,0.2,0.2,1};
+		};
+
+		//Top Line
+		class TopLine: ctrlStaticLine
+		{
+			idc = -1;
+
+			x = 0.386071 * safezoneW + safezoneX;
+			y = 0.2998 * safezoneH + safezoneY;
+			w = 0.223929 * safezoneW;
+			h = 0;
+
+		};
+
+		//Coloumn Headers
+		class TitleBackGrnd: ctrlStatic
+		{
+			idc = -1;
+
+			x = 0.386071 * safezoneW + safezoneX;
+			y = 0.313 * safezoneH + safezoneY;
+			w = 0.223929 * safezoneW;
+			h = 0.022 * safezoneH;
+
+			text = ""; //--- ToDo: Localize;
+			colorBackground[] = {0,0,0,0.2};
+		};
+
+		//Settings background
+		class GrpBackGrnd: ctrlStatic
+		{
+			idc = -1;
+
+			x = 0.386071 * safezoneW + safezoneX;
+			y = 0.346 * safezoneH + safezoneY;
+			w = 0.223929 * safeZoneW; //plus VScroll width
+			h = 0.286 * safezoneH;
+
+			text = ""; //--- ToDo: Localize;
+			colorBackground[] = {0,0,0,0.2};
+		};
+
+		//Bottom Line
+		class BottomLine: ctrlStatic
+		{
+			idc = -1;
+
+			style = ST_LINE;
+			x = 0.386071 * safezoneW + safezoneX;
+			y = 0.6958 * safezoneH + safezoneY;
+			w = 0.223929 * safezoneW;
+			h = 0;
+		};
+	};
+
+	class controls
+	{
+
+		//Section combo
+		class SectionText: ctrlStatic
+		{
+			idc = -1;
+
+			x = 0.386071 * safezoneW + safezoneX;
+			y = 0.269 * safezoneH + safezoneY;
+			w = 0.0275 * safezoneW;
+			h = 0.022 * safezoneH;
+
+			text = "Section"; //--- ToDo: Localize;
+			tooltip = "Select Keys Category";
+			colorBackground[] = {0.2,0.2,0.2,1};
+		};
+
+		class BindingsSection: ctrlCombo
+		{
+			idc = Eden_KeyBinds_BindSection;
+
+			x = 0.4175 * safezoneW + safezoneX;
+			y = 0.269 * safezoneH + safezoneY;
+			w = 0.106071 * safezoneW;
+			h = 0.022 * safezoneH;
+
+			default = 1;
+		};
+
+		//Coloumn Headers
+		class TitleDesc: ctrlStatic
+		{
+			idc = -1;
+
+			x = 0.386071 * safezoneW + safezoneX;
+			y = 0.313 * safezoneH + safezoneY;
+			w = 0.113143 * safezoneW;
+			h = 0.022 * safezoneH;
+
+			tooltip = "Key Description";
+			text = "Description"; //--- ToDo: Localize;
+			colorBackground[] = {0,0,0,0};
+		};
+
+		class TitleKey: ctrlStatic
+		{
+			idc = -1;
+
+			x = 0.504643 * safezoneW + safezoneX;
+			y = 0.313 * safezoneH + safezoneY;
+			w = 0.0196429 * safezoneW;
+			h = 0.022 * safezoneH;
+
+			style = ST_CENTER;
+			tooltip = "Current Bound Key";
+			text = "Key"; //--- ToDo: Localize;
+			colorBackground[] = {0,0,0,0};
+		};
+
+		class TitleCtrl: ctrlStatic
+		{
+			idc = -1;
+
+			x = 0.566786 * safezoneW + safezoneX;
+			y = 0.313 * safezoneH + safezoneY;
+			w = 0.0196429 * safezoneW;
+			h = 0.022 * safezoneH;
+
+			style = ST_CENTER;
+			tooltip = "Apply Ctrl Key Modifier";
+			text = "CTRL"; //--- ToDo: Localize;
+			colorBackground[] = {0,0,0,0};
+		};
+
+		class TitleAlt: ctrlStatic
+		{
+			idc = -1;
+
+			x = 0.590357 * safezoneW + safezoneX;
+			y = 0.313 * safezoneH + safezoneY;
+			w = 0.0196429 * safezoneW;
+			h = 0.022 * safezoneH;
+
+			style = ST_CENTER;
+			tooltip = "Apply Alt Key Modifier";
+			text = "ALT"; //--- ToDo: Localize;
+			colorBackground[] = {0,0,0,0};
+		};
+
+		class TitleShft: ctrlStatic
+		{
+			idc = -1;
+
+			x = 0.543214 * safezoneW + safezoneX;
+			y = 0.313 * safezoneH + safezoneY;
+			w = 0.0196429 * safezoneW;
+			h = 0.022 * safezoneH;
+
+			style = ST_CENTER;
+			tooltip = "Apply Shift Key Modifier";
+			text = "SHIFT"; //--- ToDo: Localize;
+			colorBackground[] = {0,0,0,0};
+		};
+
+
+		//Settings grp
+		class KeySettings : ctrlControlsGroupNoHScrollbars
+		{
+			idc = Eden_KeyBinds_KeySettings;
+
+			x = 0.386071 * safezoneW + safezoneX;
+			y = 0.346 * safezoneH + safezoneY;
+			w = 0.223929 * safeZoneW + ( 2 * GRID_W ); //plus VScroll width
+			h = 0.286 * safezoneH;
+
+			class controls
+			{
+				//filled via script
+			};
+		};
+
+
+		//Help text
+		class TextHelpBind: ctrlStatic
+		{
+			idc = -1;
+
+			x = 0.386071 * safezoneW + safezoneX;
+			y = 0.643 * safezoneH + safezoneY;
+			w = 0.102143 * safezoneW;
+			h = 0.022 * safezoneH;
+
+			text = "Double click a binding to set its key"; //--- ToDo: Localize;
+		};
+
+		class TextHelpCheck: ctrlStatic
+		{
+			idc = -1;
+
+			x = 0.519643 * safezoneW + safezoneX;
+			y = 0.643 * safezoneH + safezoneY;
+			w = 0.0903571 * safezoneW;
+			h = 0.022 * safezoneH;
+
+			style = ST_RIGHT;
+			text = "Check boxes for key modifiers"; //--- ToDo: Localize;
+		};
+
+		class TextHelpSelect: ctrlStatic
+		{
+			idc = -1;
+
+			x = 0.386071 * safezoneW + safezoneX;
+			y = 0.665 * safezoneH + safezoneY;
+			w = 0.162143 * safezoneW;
+			h = 0.022 * safezoneH;
+
+			text = "Click a binding to select it. Shift adds to/Ctrl removes from the selection."; //--- ToDo: Localize;
+		};
+
+
+		//Buttons
+		class ButtonCancel: ctrlButtonCancel
+		{
+			x = 0.386071 * safezoneW + safezoneX;
+			y = 0.709 * safezoneH + safezoneY;
+			w = 0.0471429 * safezoneW;
+			h = 0.022 * safezoneH;
+
+			tooltip = "Exit Key Bindings and Discard Changes";
+			colorText[] = {1,1,1,1};
+			colorBackground[] = {0,0,0,0.8};
+		};
+
+		class ButtonOk: ctrlButtonOK
+		{
+			idc = 10005;
+
+			x = 0.562857 * safezoneW + safezoneX;
+			y = 0.709 * safezoneH + safezoneY;
+			w = 0.0471429 * safezoneW;
+			h = 0.022 * safezoneH;
+
+			tooltip = "Exit Key Bindings and Apply Changes";
+			colorText[] = {1,1,1,1};
+			colorBackground[] = {0,0,0,0.8};
+			default = 0;
+
+			onButtonDown = "[ 'SAVE' ] call LARs_fnc_EKB_EdenKeybinds;";
+		};
+
+		class ButtonClear: ctrlButton
+		{
+			idc = Eden_KeyBinds_Clear;
+
+			x = 0.503929 * safezoneW + safezoneX;
+			y = 0.709 * safezoneH + safezoneY;
+			w = 0.0471429 * safezoneW;
+			h = 0.022 * safezoneH;
+
+			text = "Clear"; //--- ToDo: Localize;
+			tooltip = "Clear Current Selected Bindings";
+			colorText[] = {1,1,1,1};
+			colorBackground[] = {0,0,0,0.8};
+
+			onButtonDown = "[ 'CLEAR_SELECTION', _this ] call LARs_fnc_EKB_EdenKeybinds;";
+		};
+
+		class ButtonReset: ctrlButton
+		{
+			idc = Eden_KeyBinds_Reset;
+
+			x = 0.445 * safezoneW + safezoneX;
+			y = 0.709 * safezoneH + safezoneY;
+			w = 0.0471429 * safezoneW;
+			h = 0.022 * safezoneH;
+
+			text = "Reset"; //--- ToDo: Localize;
+			tooltip = "Reset Current Selected Bindings to Eden Defaults";
+			colorText[] = {1,1,1,1};
+			colorBackground[] = {0,0,0,0.8};
+
+			onButtonDown = "[ 'RESET_SELECTION', _this ] call LARs_fnc_EKB_EdenKeybinds;";
+		};
+
+		class ButtonResetAll: ctrlButton
+		{
+			idc = -1;
+
+			x = 0.551071 * safezoneW + safezoneX;
+			y = 0.269 * safezoneH + safezoneY;
+			w = 0.0432143 * safezoneW;
+			h = 0.022 * safezoneH;
+
+			text = "Reset All"; //--- ToDo: Localize;
+			tooltip = "Reset All Keys in this section to Eden Defaults";
+			colorText[] = {1,1,1,1};
+			colorBackground[] = {0,0,0,0.8};
+
+			onButtonDown = "[ 'RESET_SECTION', _this ] call LARs_fnc_EKB_EdenKeybinds;";
+		};
+
+	};
+};
+
+
+class LARs_EdenKeyBinds_PAK
+{
+	idd = Eden_KeyBinds_PAK;
+
+	class controlsBackground
+	{
+
+		class DisableBackGrnd: ctrlStaticBackgroundDisable
+		{
+			idc = -1;
+
+			x = safeZoneXAbs;
+			y = safeZoneY;
+			w = safeZoneWAbs;
+			h = safeZoneH;
+		};
+	};
+
+	class controls
+	{
+		//Press Any Key
+		class PAKGrp: ctrlControlsGroupNoScrollbars
+		{
+			idc = Eden_KeyBinds_PAKGrp;
+
+			x = 0.448929 * safezoneW + safezoneX;
+			y = 0.445 * safezoneH + safezoneY;
+			w = 0.0942857 * safezoneW;
+			h = 0.088 * safezoneH;
+
+			class controls
+			{
+				class PAKBackGreen: ctrlStatic
+				{
+					idc = -1;
+
+					x = 0;
+					y = 0;
+					w = 0.0942857 * safezoneW;
+					h = 0.088 * safezoneH;
+					colorBackground[] = {"(profilenamespace getvariable ['GUI_BCG_RGB_R',0.13])","(profilenamespace getvariable ['GUI_BCG_RGB_G',0.54])","(profilenamespace getvariable ['GUI_BCG_RGB_B',0.21])","(profilenamespace getvariable ['GUI_BCG_RGB_A',0.8])"};
+				};
+
+				class PAKBackBlack: ctrlStatic
+				{
+					idc = -1;
+
+					x = 0.003928 * safeZoneW;
+					y = 0.011 * safeZoneH;
+					w = 0.0864286 * safezoneW;
+					h = 0.066 * safezoneH;
+					colorBackground[] = {0.2,0.2,0.2,1};
+				};
+
+				class PAKMessage: ctrlStatic
+				{
+					idc = Eden_KeyBinds_PAKMessage;
+
+					style = ST_CENTER;
+					text = "Press Any Key"; //--- ToDo: Localize;
+					x = 0.023571 * safeZoneW;
+					y = 0.033 * safeZoneH;
+					w = 0.0471429 * safezoneW;
+					h = 0.022 * safezoneH;
+					colorBackground[] = {0.2,0.2,0.2,1};
+				};
+			};
+		};
+	};
+};

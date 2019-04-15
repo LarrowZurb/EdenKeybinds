@@ -1,0 +1,809 @@
+﻿
+//*****  MenuStrip
+class LARs_EdenKeybinds
+{
+	class ContextMenu
+	{
+//		class Sync
+//		{
+//			description = "Sync object";
+//			varName = "Eden_key_EntitySync";
+//			default[] = {};
+//		};
+
+		class SnapToSurface
+		{
+			description = "Snap selected object to surface";
+			varName = "Eden_key_EntitySnapToSurface";
+			default[] = {};
+		};
+	};
+	class File
+	{
+		class MissionNew
+		{
+			description = "Create a new mission";
+			varName = "Eden_key_MissionNew";
+			default[] = { 512 + 0x31 };
+		};
+
+		class MissionOpen
+		{
+			description = "Open exitsting mission";
+			varName = "Eden_key_MissionOpen";
+			default[] = { 512 + 0x18 };
+		};
+
+		class MissionSave
+		{
+			description = "Save current mission";
+			varName = "Eden_key_MissionSave";
+			default[] = { 512 + 0x1F };
+		};
+
+		class MissionSaveAs
+		{
+			description = "Save mission with new name";
+			varName = "Eden_key_MissionSaveAs";
+			default[] = { 512 + 1024 + 0x1F };
+		};
+
+		class MissionPublishSteam
+		{
+			description = "Publish mission to Steam";
+			varName = "Eden_key_MissionPublishSteam";
+			default[] = {};
+		};
+
+		class MissionMerge
+		{
+			description = "Merge mission with another";
+			varName = "Eden_key_MissionMerge";
+			default[] = { 512 + 0x32 };
+		};
+
+		class MissionFolder
+		{
+			description = "Open mission folder";
+			varName = "Eden_key_MissionFolder";
+			default[] = {};
+		};
+
+		class MissionAddons
+		{
+			description = "Show addons used in mission";
+			varName = "Eden_key_MissionAddons";
+			default[] = {};
+		};
+
+		class LogFolder
+		{
+			description = "Open log folder";
+			varName = "Eden_key_LogFolder";
+			default[] = {};
+		};
+
+		class Exit
+		{
+			description = "Exit Eden";
+			varName = "Eden_key_Exit";
+			default[] = {};
+		};
+	};
+
+	class Export
+	{
+		class MissionExportSP
+		{
+			description = "Export mission to singleplayer";
+			varName = "Eden_key_MissionExportSP";
+			default[] = {};
+		};
+
+		class MissionExportMP
+		{
+			description = "Export mission to multiplayer";
+			varName = "Eden_key_MissionExportMP";
+			default[] = {};
+		};
+
+		class MissionTerrainBuilder
+		{
+			description = "Export mission to terrain builder";
+			varName = "Eden_key_MissionTerrainBuilder";
+			default[] = {};
+		};
+	};
+
+	class Edit
+	{
+		class Undo
+		{
+			description = "Undo Eden operation";
+			varName = "Eden_key_Undo";
+			default[] = { 512 + 0x2C };
+		};
+
+		class Redo
+		{
+			description = "Redo Eden operation";
+			varName = "Eden_key_Redo";
+			default[] = { 512 + 0x15, 512 +	1024 + 0x2C };
+		};
+
+		class EntitySelectScreen
+		{
+			description = "Select all on screen";
+			varName = "Eden_key_EntitySelectScreen";
+			default[] = { 512 + 0x1E };
+		};
+
+		class EntityCut
+		{
+			description = "Cut selection";
+			varName = "Eden_key_EntityCut";
+			default[] = { 512 + 0x2D };
+		};
+
+		class EntityCopy
+		{
+			description = "Copy selected";
+			varName = "Eden_key_EntityCopy";
+			default[] = { 512 + 0x2E };
+		};
+
+		class EntityPaste
+		{
+			description = "Paste";
+			varName = "Eden_key_EntityPaste";
+			default[] = { 512 + 0x2F };
+		};
+
+		class EntityPasteOrig
+		{
+			description = "Paste at same position";
+			varName = "Eden_key_EntityPasteOrig";
+			default[] = { 512 + 1024 + 0x2F };
+		};
+
+//		class EntitySimulation
+//		{
+//			description = "";
+//			varName = "Eden_key_EntitySimulation";
+//			default[] = { 512 + 0x19 };
+//		};
+	};
+
+	class Widget
+	{
+		class WidgetToggle
+		{
+			description = "Toggle widget mode";
+			varName = "Eden_key_WidgetToggle";
+			default[] = { 57 };
+		};
+
+		class WidgetNone
+		{
+			description = "Widget mode none";
+			varName = "Eden_key_WidgetNone";
+			default[] = { 2 };
+		};
+
+		class WidgetTranslation
+		{
+			description = "Widget translation";
+			varName = "Eden_key_WidgetTranslation";
+			default[] = { 3 };
+		};
+
+		class WidgetRotation
+		{
+			description = "Widget rotation";
+			varName = "Eden_key_WidgetRotation";
+			default[] = { 4 };
+		};
+
+		class WidgetScaling
+		{
+			description = "Widget scaling";
+			varName = "Eden_key_WidgetScaling";
+			default[] = { 5 };
+		};
+
+		class WidgetArea
+		{
+			description = "Widget area";
+			varName = "Eden_key_WidgetArea";
+			default[] = { 6 };
+		};
+
+		class WidgetSpace
+		{
+			description = "Toggle widget space";
+			varName = "Eden_key_WidgetSpace";
+			default[] = { 34 };
+		};
+
+		class WidgetSpaceWorld
+		{
+			description = "Widget space world";
+			varName = "Eden_key_WidgetSpaceWorld";
+			default[] = {};
+		};
+
+		class WidgetSpaceLocal
+		{
+			description = "Widget space local";
+			varName = "Eden_key_WidgetSpaceLocal";
+			default[] = {};
+		};
+
+//		class WidgetPosition
+//		{
+//			description = "Toggle position";
+//			varName = "Eden_key_WidgetPosition";
+//			default[] = { 34 };
+//		};
+
+//		class WidgetPositionEntity
+//		{
+//			description = "Widget position entity";
+//			varName = "Eden_key_WidgetPositionEntity";
+//			default[] = {};
+//		};
+
+//		class WidgetPositionMean
+//		{
+//			description = "Widget position mean";
+//			varName = "Eden_key_WidgetPositionMean";
+//			default[] = {};
+//		};
+	};
+
+	class Grid
+	{
+		class GridTranslationToggle
+		{
+			description = "Toggle grid translation";
+			varName = "Eden_key_GridTranslationToggle";
+			default[] = { 39 };
+		};
+
+		class GridRotationToggle
+		{
+			description = "Toggle grid rotation";
+			varName = "Eden_key_GridRotationToggle";
+			default[] = {};
+		};
+
+		class GridScalingToggle
+		{
+			description = "Toggle grid scaling";
+			varName = "Eden_key_GridScalingToggle";
+			default[] = {};
+		};
+
+		class GridDecrease
+		{
+			description = "Decrease grid";
+			varName = "Eden_key_GridDecrease";
+			default[] = { 26 };
+		};
+
+		class GridIncrease
+		{
+			description = "Increase grid";
+			varName = "Eden_key_GridIncrease";
+			default[] = { 27 };
+		};
+	};
+
+	class Snapping
+	{
+		class VerticalToggle
+		{
+			description = "Toggle vertical snap";
+			varName = "Eden_key_VerticalToggle";
+			default[] = { 40 };
+		};
+
+		class VerticalATL
+		{
+			description = "Snap to terrain level";
+			varName = "Eden_key_VerticalATL";
+			default[] = {};
+		};
+
+		class VerticalASL
+		{
+
+			description = "Snap to sea level";
+			varName = "Eden_key_VerticalASL";
+			default[] = {};
+		};
+
+		class SurfaceSnapToggle
+		{
+			description = "Toggle surface snapping";
+			varName = "Eden_key_SurfaceSnapToggle";
+			default[] = { 43 };
+		};
+
+		class WaypointSnapToggle
+		{
+			description = "Toggle waypoint snapping";
+			varName = "Eden_key_WaypointSnapToggle";
+			default[] = { 53 };
+		};
+	};
+
+	class MissionPhase
+	{
+		class SpaceMission
+		{
+			description = "Mission phase";
+			varName = "Eden_key_SpaceMission";
+			default[] = {};
+		};
+		class SpaceIntro
+		{
+			description = "Intro phase";
+			varName = "Eden_key_SpaceIntro";
+			default[] = {};
+		};
+		class SpaceOutroWin
+		{
+			description = "Outro win phase";
+			varName = "Eden_key_SpaceOutroWin";
+			default[] = {};
+		};
+		class SpaceOutroLose
+		{
+			description = "Outro lose phase";
+			varName = "Eden_key_SpaceOutroLose";
+			default[] = {};
+		};
+	};
+
+	class InsertionMode
+	{
+
+		class ModeObject
+		{
+			description = "Mode Objects";
+			varName = "Eden_key_ModeObject";
+			default[] = { 59 };
+		};
+
+		class ModeGroup
+		{
+			description = "Mode Groups";
+			varName = "Eden_key_ModeGroup";
+			default[] = { 60 };
+		};
+
+		class ModeTrigger
+		{
+			description = "Mode Triggers";
+			varName = "Eden_key_ModeTrigger";
+			default[] = { 61 };
+		};
+
+		class ModeWaypoint
+		{
+			description = "Mode Waypoints";
+			varName = "Eden_key_ModeWaypoint";
+			default[] = { 62 };
+		};
+
+		class ModeLogic
+		{
+			description = "Mode Logics";
+			varName = "Eden_key_ModeLogic";
+			default[] = { 63 };
+		};
+
+		class ModeMarker
+		{
+			description = "Mode Markers";
+			varName = "Eden_key_ModeMarker";
+			default[] = { 64 };
+		};
+
+//		class ModeFavorite
+//		{
+//			description = "Mode Favorite";
+//			varName = "Eden_key_ModeFavorite";
+//			default[] = { 65 };
+//		};
+
+		class SubmodeToggle
+		{
+			description = "Toggle Sub mode";
+			varName = "Eden_key_SubmodeToggle";
+			default[] = { 15 };
+		};
+	};
+
+	class View
+	{
+		class ViewRandom
+		{
+			description = "View random";
+			varName = "Eden_key_ViewRandom";
+			default[] = { 512 + 0x13 };
+		};
+
+		class ViewSelected
+		{
+			description = "View selected";
+			varName = "Eden_key_ViewSelected";
+			default[] = { 0x21 };
+		};
+
+		class ViewPlayer
+		{
+			description = "View player";
+			varName = "Eden_key_ViewPlayer";
+			default[] = { 199 };
+		};
+
+		class Map
+		{
+			description = "View map";
+			varName = "Eden_key_Map";
+			default[] = { 50 };
+		};
+
+		class MapTextures
+		{
+			description = "Toggle map textures";
+			varName = "Eden_key_MapTextures";
+			default[] = { 512 + 0x14 };
+		};
+
+//		class MapIDs
+//		{
+//			description = "View map IDs";
+//			varName = "Eden_key_MapIDs";
+//			default[] = {};
+//		};
+
+		class ToggleLocations
+		{
+			description = "Toggle locations";
+			varName = "Eden_key_ToggleLocations";
+			default[] = {};
+		};
+
+		class ToggleFlashlight
+		{
+			description = "Toggle flashlight";
+			varName = "Eden_key_ToggleFlashlight";
+			default[] = { 38 };
+		};
+
+		class ToggleVegetation
+		{
+			description = "Toggle vegitation";
+			varName = "Eden_key_ToggleVegetation";
+			default[] = { 512 + 0x22 };
+		};
+
+		class VisionModeToggle
+		{
+			description = "Toggle vision mode";
+			varName = "Eden_key_VisionModeToggle";
+			default[] = { 49 };
+		};
+
+		class VisionModeNormal
+		{
+			description = "Vision mode normal";
+			varName = "Eden_key_VisionModeNormal";
+			default[] = {};
+		};
+
+		class VisionModeNVG
+		{
+			description = "Vision mode NVG";
+			varName = "Eden_key_VisionModeNVG";
+			default[] = {};
+		};
+
+		class VisionModeTI
+		{
+			description = "Vision mode TI";
+			varName = "Eden_key_VisionModeTI";
+			default[] = {};
+		};
+	};
+
+	class Search
+	{
+		class SearchCreate
+		{
+			description = "Search assets";
+			varName = "Eden_key_SearchCreate";
+			default[] = { 512 + 0x21 };
+		};
+
+		class SearchEdit
+		{
+			description = "Search entities";
+			varName = "Eden_key_SearchEdit";
+			default[] = { 512 + 1024 + 0x21 };
+		};
+	};
+
+	class Interface
+	{
+		class InterfaceToggle
+		{
+			description = "Toggle interface";
+			varName = "Eden_key_InterfaceToggle";
+			default[] = { 14 };
+		};
+
+		class InterfacePanelLeft
+		{
+			description = "Toggle left panel";
+			varName = "Eden_key_InterfacePanelLeft";
+			default[] = { 18 };
+		};
+
+		class InterfacePanelRight
+		{
+			description = "Toggle right panel";
+			varName = "Eden_key_InterfacePanelRight";
+			default[] = { 19 };
+		};
+
+		class InterfaceControlsHint
+		{
+			description = "Toggle controls hint";
+			varName = "Eden_key_InterfaceControlsHint";
+			default[] = {};
+		};
+
+		class InterfaceNavigationWidget
+		{
+			description = "Toggle navigation widget";
+			varName = "Eden_key_InterfaceNavigationWidget";
+			default[] = {};
+		};
+	};
+
+	class Attributes
+	{
+		class AttributesScenario
+		{
+			description = "Attribute senario";
+			varName = "Eden_key_AttributesScenario";
+			default[] = {};
+		};
+
+		class AttributesMultiplayer
+		{
+			description = "Attributes multiplayer";
+			varName = "Eden_key_AttributesMultiplayer";
+			default[] = {};
+		};
+
+		class AttributesEnvironment
+		{
+			description = "Attribute environment";
+			varName = "Eden_key_AttributesEnvironment";
+			default[] = { 512 + 0x17 };
+		};
+
+		class AttributesGarbageCollection
+		{
+			description = "Attribute garbage collection";
+			varName = "Eden_key_AttributesGarbageCollection";
+			default[] = {};
+		};
+	};
+
+	class Tools
+	{
+		class DebugConsole
+		{
+			description = "Debug console";
+			varName = "Eden_key_DebugConsole";
+			default[] = { 41 };
+		};
+
+		class FunctionsViewer
+		{
+			description = "Fucntions viewer";
+			varName = "Eden_key_FunctionsViewer";
+			default[] = {};
+		};
+
+		class ConfigViewer
+		{
+			description = "Config viewer";
+			varName = "Eden_key_ConfigViewer";
+			default[] = {};
+		};
+
+		class AnimationViewer
+		{
+			description = "Animation viewer";
+			varName = "Eden_key_AnimationViewer";
+			default[] = {};
+		};
+	};
+
+//	COMMUNITYTOOLS
+
+	class Preview
+	{
+		class MissionPreviewButton
+		{
+			description = "Preview Play Button";
+			varName = "Eden_key_MissionPreviewButton";
+			default[] = { 28 };
+		};
+
+		class MissionPreviewSP
+		{
+			description = "Preview singleplayer";
+			varName = "Eden_key_MissionPreviewSP";
+			default[] = { 1024 + 0x1c };
+		};
+
+		class MissionPreviewSPBriefing
+		{
+			description = "Preview SP with breifing";
+			varName = "Eden_key_MissionPreviewSPBriefing";
+			default[] = { 512 + 1024 + 0x1C };
+		};
+
+		class MissionPreviewCamera
+		{
+			description = "Preview at camera position";
+			varName = "Eden_key_MissionPreviewCamera";
+			default[] = {};
+		};
+
+		class MissionPreviewSpectator
+		{
+			description = "Preview as spectator";
+			varName = "Eden_key_MissionPreviewSpectator";
+			default[] = {};
+		};
+
+		class MissionPreviewMP
+		{
+			description = "Preview in multiplayer";
+			varName = "Eden_key_MissionPreviewMP";
+			default[] = {};
+		};
+
+	};
+
+	class Options
+	{
+		class OptionsVideo
+		{
+			description = "Video options";
+			varName = "Eden_key_OptionsVideo";
+			default[] = {};
+		};
+
+		class OptionsAudio
+		{
+			description = "Audio options";
+			varName = "Eden_key_OptionsAudio";
+			default[] = {};
+		};
+
+		class OptionsGame
+		{
+			description = "Game options";
+			varName = "Eden_key_OptionsGame";
+			default[] = {};
+		};
+
+		class OptionsControls
+		{
+			description = "Controls options";
+			varName = "Eden_key_OptionsControls";
+			default[] = {};
+		};
+
+		class OptionsEditor
+		{
+			description = "Eden preferences";
+			varName = "Eden_key_OptionsEditor";
+			default[] = { 512 + 0x25 };
+		};
+
+		class OptionsEditorKeybinds
+		{
+			description = "Eden controls";
+			varName = "Eden_key_OptionsEditorKeybinds";
+			default[] = {};
+		};
+	};
+
+	class Help
+	{
+		class HelpDoc
+		{
+			description = "Editor wiki";
+			varName = "Eden_key_HelpDoc";
+			default[] = {};
+		};
+
+		class HelpScripting
+		{
+			description = "Scripting wiki";
+			varName = "Eden_key_HelpScripting";
+			default[] = {};
+		};
+
+		class HelpBiki
+		{
+			description = "Wiki main page";
+			varName = "Eden_key_HelpBiki";
+			default[] = {};
+		};
+
+		class HelpForums
+		{
+			description = "Arma forums";
+			varName = "Eden_key_HelpForums";
+			default[] = {};
+		};
+
+		class HelpFeedback
+		{
+			description = "Feedback tracker";
+			varName = "Eden_key_HelpFeedback";
+			default[] = {};
+		};
+
+		class HelpDevHub
+		{
+			description = "Dev hub";
+			varName = "Eden_key_HelpDevHub";
+			default[] = {};
+		};
+
+		class HelpTutorials
+		{
+			description = "Eden tutorials";
+			varName = "Eden_key_HelpTutorials";
+			default[] = {};
+		};
+
+//		class HelpUpdates
+//		{
+//			description = "Show Eden update log";
+//			varName = "Eden_key_HelpUpdates";
+//			default[] = {};
+//		};
+	};
+
+};
+
+
+//		//*****  ContextMenu
+//
+//
+//		Eden_key_
+//		Eden_key_
+//		Eden_key_
+//		Eden_key_
+//		Eden_key_
+//		Eden_key_
+//		Eden_key_
+//		Eden_key_
+//		Eden_key_
+//
+//
+//		shortcuts[]={"profilenamespace getvariable [ 'Eden_key_EntityCut"', ( 512 + 0x1F ) ]"};

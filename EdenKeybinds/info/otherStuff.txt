@@ -1,0 +1,22 @@
+/* Move camera in its facing direction
+get3dencamera setpos (getpos get3dencamera vectoradd ( vectordir get3dencamera vectorMultiply -0.5)); get3dencamera camCommit 0
+*/
+
+select all entities on same layer as selected entity
+
+copy/paste attributes, use widget
+
+colorPalette
+
+pos > direction > distance move entity
+
+pos > gridx,  gridY array entities
+
+splines
+
+module info
+
+Other options
+	incremental save
+	camera forward/back as zoom in/out
+	

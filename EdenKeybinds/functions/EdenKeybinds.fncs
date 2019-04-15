@@ -1,0 +1,16 @@
+
+class LARs_EdenKeybinds
+{
+	tag = "LARs";
+	class EdenKeybinds
+	{
+		file = "LARs\EdenkeyBinds\functions";
+		class EKB_EdenKeybinds {};
+	};
+
+	class EdenFeatures
+	{
+		file = "LARs\EdenkeyBinds\functions\features";
+		class EKB_snapToGround {};
+	};
+};
