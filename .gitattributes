@@ -1,2 +1,5 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+*.hpp linguist-language=sqf
+*.cpp linguist-language=sqf
+*.gui linguist-language=sqf
