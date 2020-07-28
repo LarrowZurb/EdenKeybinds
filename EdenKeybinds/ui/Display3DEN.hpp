@@ -513,7 +513,13 @@ class Display3DEN
 					text="$STR_3DEN_Display3DEN_MenuBar_MissionTerrainBuilder_text";
 					data="MissionExportTerrainBuilder";
 					action="[] spawn bis_fnc_3DENExportTerrainBuilder;";
-					shortcuts[]={"profilenamespace getvariable [ 'Eden_key_MissionSave', nil ]"};
+					shortcuts[]={"profilenamespace getvariable [ 'Eden_key_MissionTerrainBuilder', nil ]"};
+				};
+				class MissionExportSQF
+				{
+					text="$STR_3den_display3den_menubar_missionexportsqf_text";
+					action="[] call bis_fnc_3DENExportSQF;";
+					shortcuts[]={"profilenamespace getvariable [ 'Eden_key_MissionExportSQF', nil ]"};
 				};
 				class MissionMerge
 				{
@@ -654,41 +660,41 @@ class Display3DEN
 					shortcuts[]={"profilenamespace getvariable [ 'Eden_key_WidgetSpace', ( 34 ) ]"};
 					enable=0;
 				};
-				class WidgetSpaceWorld
-				{
-					text="$STR_3DEN_Display3DEN_MenuBar_WidgetSpaceWorld_text";
-					data="WidgetSpaceWorld";
-					shortcuts[]={"profilenamespace getvariable [ 'Eden_key_WidgetSpaceWorld', nil ]"};
-					enable=0;
-				};
-				class WidgetSpaceLocal
-				{
-					text="$STR_3DEN_Display3DEN_MenuBar_WidgetSelectedEntity_text";
-					data="WidgetSpaceLocal";
-					shortcuts[]={"profilenamespace getvariable [ 'Eden_key_WidgetSpaceLocal', nil ]"};
-					enable=0;
-				};
-				class WidgetPosition
-				{
-					xtext="$STR_3DEN_Display3DEN_MenuBar_WidgetPosition_text";
-					data="WidgetPosition";
-					shortcuts[]={"profilenamespace getvariable [ 'Eden_key_WidgetPosition', ( 34 ) ]"};
-					enable=0;
-				};
-				class WidgetPositionEntity
-				{
-					xtext="$STR_3DEN_Display3DEN_MenuBar_WidgetSelectedEntity_text";
-					data="WidgetPositionEntity";
-					shortcuts[]={"profilenamespace getvariable [ 'Eden_key_WidgetPositionEntity', nil ]"};
-					enable=0;
-				};
-				class WidgetPositionMean
-				{
-					xtext="$STR_3DEN_Display3DEN_MenuBar_WidgetPositionMean_text";
-					data="WidgetPositionMean";
-					shortcuts[]={"profilenamespace getvariable [ 'Eden_key_WidgetPositionMean', nil ]"};
-					enable=0;
-				};
+//				class WidgetSpaceWorld
+//				{
+//					text="$STR_3DEN_Display3DEN_MenuBar_WidgetSpaceWorld_text";
+//					data="WidgetSpaceWorld";
+//					shortcuts[]={"profilenamespace getvariable [ 'Eden_key_WidgetSpaceWorld', nil ]"};
+//					enable=0;
+//				};
+//				class WidgetSpaceLocal
+//				{
+//					text="$STR_3DEN_Display3DEN_MenuBar_WidgetSelectedEntity_text";
+//					data="WidgetSpaceLocal";
+//					shortcuts[]={"profilenamespace getvariable [ 'Eden_key_WidgetSpaceLocal', nil ]"};
+//					enable=0;
+//				};
+//				class WidgetPosition
+//				{
+//					xtext="$STR_3DEN_Display3DEN_MenuBar_WidgetPosition_text";
+//					data="WidgetPosition";
+//					shortcuts[]={"profilenamespace getvariable [ 'Eden_key_WidgetPosition', ( 34 ) ]"};
+//					enable=0;
+//				};
+//				class WidgetPositionEntity
+//				{
+//					xtext="$STR_3DEN_Display3DEN_MenuBar_WidgetSelectedEntity_text";
+//					data="WidgetPositionEntity";
+//					shortcuts[]={"profilenamespace getvariable [ 'Eden_key_WidgetPositionEntity', nil ]"};
+//					enable=0;
+//				};
+//				class WidgetPositionMean
+//				{
+//					xtext="$STR_3DEN_Display3DEN_MenuBar_WidgetPositionMean_text";
+//					data="WidgetPositionMean";
+//					shortcuts[]={"profilenamespace getvariable [ 'Eden_key_WidgetPositionMean', nil ]"};
+//					enable=0;
+//				};
 //				class Grid
 //				{
 //					text="$STR_3DEN_Display3DEN_MenuBar_Grid_text";
@@ -1096,6 +1102,22 @@ class Display3DEN
 					action="[ctrlparent (_this select 0)] call (uinamespace getvariable 'bis_fnc_animviewer');";
 					opensNewWindow=1;
 					shortcuts[]={"profilenamespace getvariable [ 'Eden_key_AnimationViewer', nil ]"};
+				};
+				class SplendidCamera
+				{
+					text="$STR_3DEN_Camera_textSingular";
+					data="SplendidCamera";
+					action="[] call (uinamespace getvariable 'bis_fnc_camera');";
+					opensNewWindow=1;
+					shortcuts[]={"profilenamespace getvariable [ 'Eden_key_SplendidCamera', nil ]"};
+				};
+				class FieldManual
+				{
+					text="$STR_A3_RscDisplayFieldManual_Title";
+					data="FieldManual";
+					action="(ctrlparent (_this select 0)) createdisplay 'RscDisplayFieldManual';";
+					opensNewWindow=1;
+					shortcuts[]={"profilenamespace getvariable [ 'Eden_key_FieldManual', nil ]"};
 				};
 //				class CommunityTools
 //				{

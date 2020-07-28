@@ -17,7 +17,7 @@ switch ( toUpper _fnc ) do {
 			[ "INIT", _this ] spawn LARs_fnc_EKB_EdenKeybinds
 		};
 		private[ "_section", "_sectionName", "_nul", "_index", "_bindName", "_varName", "_description", "_default", "_currentValue", "_largestSection" ];
-		params[ "_display", [ "_menu", ( [ "LARs_EKB_missionKeys", configFile >> "LARs_EdenKeybinds" ] select is3DEN ), [ configNull, "", [] ] ] ];
+		params[ "_display", [ "_menu", ( [ "LARs_EKB_customKeys", configFile >> "LARs_EdenKeybinds" ] select is3DEN ), [ configNull, "", [] ] ] ];
 
 		waitUntil{ !isNull _display };
 
@@ -117,7 +117,7 @@ switch ( toUpper _fnc ) do {
 				_menu = _menu select[ 1, count _menu ];
 			}else{
 				//Else use a default title
-				_display displayCtrl Eden_KeyBinds_WindowTitle ctrlSetText "Mission Keys";
+				_display displayCtrl Eden_KeyBinds_WindowTitle ctrlSetText "Custom Keys";
 			};
 
 
@@ -147,16 +147,7 @@ switch ( toUpper _fnc ) do {
 					_keyEvent = [ "up", toLower _keyEvent ] select ( toLower _keyEvent in [ "up", "down" ] );
 
 					_keyFunctionNamespace = [ missionNamespace, _keyFunctionNamespace ] select ( _keyFunctionNamespace isEqualType missionNamespace );
-					_keyFunction = if ( !( _keyFunction isEqualTo "" ) ) then {
-						private _keyFunctionCode = call compile format[ "%1 getVariable %2", _keyFunctionNamespace, str _keyFunction ];
-						if ( !( isNil "_keyFunctionCode" ) && { _keyFunctionCode isEqualType {} } ) then {
-							_keyFunction
-						}else{
-							""
-						};
-					}else{
-						""
-					};
+					_keyFunction = _keyFunctionNamespace getVariable [ _keyFunction, {} ];
 
 					{
 						_type = [
@@ -185,13 +176,18 @@ switch ( toUpper _fnc ) do {
 					_count = _count + 1;
 				}forEach _binds;
 				_largestSection = _largestSection max _count;
-			}forEach LARs_EKB_missionKeys;
+			}forEach _menu;
+
+			missionNamespace setVariable[ "LARs_EKB_customKeys", +LARs_keybinds_data ];
+
+			//TODO: Need somewhere to start a Key event for each keybind ( possibly allow specify of KeyUp OR KeyDown )
+			//Add each sepreately and store EH ID so they can be added removed whenever a keyBind changes
+			//Or one EH that loops through data looking at each keyBinds key and modifiers
+
+			//TODO: REGISTER_KEY ????
 
 		};
 
-		//TODO: Need somewhere to start a Key event for each keybind ( possibly allow specify of KeyUp OR KeyDown )
-		//Add each sepreately and store EH ID so they can be added removed whenever a keyBind changes
-		//Or one EH that loops through data looking at each keyBinds key and modifiers
 
 		LARs_keybinds_dataOld = +LARs_keybinds_data;
 
@@ -223,6 +219,7 @@ switch ( toUpper _fnc ) do {
 
 		switch ( toUpper _fnc ) do {
 
+			//CHANGED
 			case "LB_CHANGED" : {
 				private[ "_ctrl", "_numBinds", "_bindControls", "_bindIndex", "_bind", "_nul", "_sectionIndex", "_sIndex", "_bIndex", "_conflict", "_sName", "_AltShftCtrl" ];
 				params[ "_section", "_index", [ "_isNewSection", false ] ];
@@ -351,6 +348,25 @@ switch ( toUpper _fnc ) do {
 					[ "BIND", [ "HIGHLIGHT", EKB_KeyBindGroup ] ] call LARs_fnc_EKB_EdenKeybinds;
 				};
 
+			};
+
+			//RESET
+			case "RESET" : {
+				private[ "_sectionindex", "_data" ];
+				params[ "_ctrl" ];
+
+				_sectionIndex = lbCurSel EKB_Section;
+
+				_data = LARs_keybinds_data select _sectionIndex;
+				{
+					_x params[ "_varName", "_currentValue", "_default" ];
+
+					if !( _currentValue isEqualTo _default ) then {
+						EKB_SetData( _sectionIndex, _forEachIndex, EKB_DataValue, _default );
+					};
+				}forEach +_data;
+
+				[ "SECTION", [ "LB_CHANGED", [ EKB_Section, _sectionIndex ] ] ] call LARs_fnc_EKB_EdenKeybinds;
 			};
 		};
 	};
@@ -500,6 +516,32 @@ switch ( toUpper _fnc ) do {
 				LARs_EdenKeybinds_checked = nil;
 			};
 
+			case "CREATE" : {
+				//TODO: Move creation of bind ctrl in here
+				params[ "_sectionSize" ];
+
+				private _currentCtrls = EKB_KeyBindGroup getVariable[ "bindControls", [] ];
+
+				//Delete unneed bind ctrls
+				if ( count _currentCtrls > _sectionSize ) then {
+					{
+						ctrlDelete _x;
+					}forEach ( _currentCtrls select[ _sectionSize, count _currentCtrls ] );
+					_currentCtrls = _currentCtrls select[ 0, _sectionSize ];
+				};
+
+				if ( count _currentCtrls < _sectionSize ) then {
+					private _newCtrls = [];
+					for "_i" from count _currentCtrls to _sectionSize do { //TODO: check these values
+						private _bind = EKB_Display ctrlCreate [ "LARs_EdenKeyBinds_bind", 100 + _i, EKB_KeyBindGroup ];
+						_bind ctrlSetPosition[ 0, Eden_KeyBinds_BindGrp_height * _i ];
+						_bind ctrlCommit 0;
+						private _nul = _newCtrls pushBack _bind;
+					};
+					EKB_KeyBindGroup setVariable[ "bindControls", _currentCtrls append _newCtrls ];
+				};
+			};
+
 		};
 	};
 
@@ -512,7 +554,9 @@ switch ( toUpper _fnc ) do {
 		};
 
 		if ( { { !isNil{ _x select EKB_DataHasConflict } && { _x select EKB_DataHasConflict } }count _x > 0 }count LARs_keybinds_data > 0 ) then {
-			[ "You must resolve any bind conflicts", 1, 5 ] call BIS_fnc_3DENNotification;
+			if ( is3DEN ) then {
+				[ "You must resolve any bind conflicts", 1, 5 ] call BIS_fnc_3DENNotification;
+			};
 			{
 				_sectionIndex = _forEachIndex;
 				_shown = {
@@ -550,145 +594,134 @@ switch ( toUpper _fnc ) do {
 		};
 	};
 
-	//RESET_SECTION
-	case "RESET_SECTION" : {
-		private[ "_sectionindex", "_data" ];
-		params[ "_ctrl" ];
+	//SELECTION
+	case "SELECTION" : {
+		params[ "_fnc", "_this" ];
 
-		_sectionIndex = lbCurSel EKB_Section;
+		switch ( toUpper _fnc ) do {
 
-		_data = LARs_keybinds_data select _sectionIndex;
-		{
-			_x params[ "_varName", "_currentValue", "_default" ];
+			//RESET
+			case "RESET" : {
+				private[ "_sectionIndex", "_data" ];
+				params[ "_ctrl" ];
 
-			if !( _currentValue isEqualTo _default ) then {
-				EKB_SetData( _sectionIndex, _forEachIndex, EKB_DataValue, _default );
+				_sectionIndex = lbCurSel EKB_Section;
+
+				_data = LARs_keybinds_data select _sectionIndex;
+				{
+					_x params[ "_varName", "_currentValue", "_default" ];
+
+					if ( EKB_KeyBind( 100 + _forEachIndex ) in LARs_keybinds_currentSelected ) then {
+						if !( _currentValue isEqualTo _default ) then {
+							EKB_SetData( _sectionIndex, _forEachIndex, EKB_DataValue, _default );
+						};
+					};
+				}forEach +_data;
+
+				[ "SECTION", [ "LB_CHANGED", [ EKB_Section, _sectionIndex ] ] ] call LARs_fnc_EKB_EdenKeybinds;
 			};
-		}forEach +_data;
 
-		[ "SECTION", [ "LB_CHANGED", [ EKB_Section, _sectionIndex ] ] ] call LARs_fnc_EKB_EdenKeybinds;
-	};
+			//CLEAR
+			case "CLEAR" : {
+				private[ "_sectionIndex", "_data", "_sIndex", "_bIndex" ];
+				params[ "_ctrl" ];
 
-	//RESET_SELECTION
-	case "RESET_SELECTION" : {
-		private[ "_sectionIndex", "_data" ];
-		params[ "_ctrl" ];
+				_sectionIndex = lbCurSel EKB_Section;
 
-		_sectionIndex = lbCurSel EKB_Section;
+				_data = LARs_keybinds_data select _sectionIndex;
+				{
+					_x params[ "_varName", "_currentValue", "_default" ];
 
-		_data = LARs_keybinds_data select _sectionIndex;
-		{
-			_x params[ "_varName", "_currentValue", "_default" ];
+					if ( EKB_KeyBind( 100 + _forEachIndex ) in LARs_keybinds_currentSelected ) then {
+						EKB_SetData( _sectionIndex, _forEachIndex, EKB_DataValue, -1 );
+						if ( EKB_GetData( _sectionIndex, _forEachIndex, EKB_DataHasConflict ) ) then {
+							_sIndex = EKB_GetData( _sectionIndex, _forEachIndex, EKB_DataConflictSection );
+							_bIndex = EKB_GetData( _sectionIndex, _forEachIndex, EKB_DataConflictIndex );
+							EKB_SetData( _sIndex, _bIndex, EKB_DataHasConflict, false );
+							EKB_SetData( _sIndex, _bIndex, EKB_DataConflictSection, nil );
+							EKB_SetData( _sIndex, _bIndex, EKB_DataConflictIndex, nil );
+						};
+						EKB_SetData( _sectionIndex, _forEachIndex, EKB_DataHasConflict, false );
+						EKB_SetData( _sectionIndex, _forEachIndex, EKB_DataConflictSection, nil );
+						EKB_SetData( _sectionIndex, _forEachIndex, EKB_DataConflictIndex, nil );
+					};
+				}forEach +_data;
 
-			if ( EKB_KeyBind( 100 + _forEachIndex ) in LARs_keybinds_currentSelected ) then {
-				if !( _currentValue isEqualTo _default ) then {
-					EKB_SetData( _sectionIndex, _forEachIndex, EKB_DataValue, _default );
-				};
+				[ "SECTION", [ "LB_CHANGED", [ EKB_Section, _sectionIndex ] ] ] call LARs_fnc_EKB_EdenKeybinds;
 			};
-		}forEach +_data;
 
-		[ "SECTION", [ "LB_CHANGED", [ EKB_Section, _sectionIndex ] ] ] call LARs_fnc_EKB_EdenKeybinds;
-	};
-
-	//CLEAR_SELECTION
-	case "CLEAR_SELECTION" : {
-		private[ "_sectionIndex", "_data", "_sIndex", "_bIndex" ];
-		params[ "_ctrl" ];
-
-		_sectionIndex = lbCurSel EKB_Section;
-
-		_data = LARs_keybinds_data select _sectionIndex;
-		{
-			_x params[ "_varName", "_currentValue", "_default" ];
-
-			if ( EKB_KeyBind( 100 + _forEachIndex ) in LARs_keybinds_currentSelected ) then {
-				EKB_SetData( _sectionIndex, _forEachIndex, EKB_DataValue, -1 );
-				if ( EKB_GetData( _sectionIndex, _forEachIndex, EKB_DataHasConflict ) ) then {
-					_sIndex = EKB_GetData( _sectionIndex, _forEachIndex, EKB_DataConflictSection );
-					_bIndex = EKB_GetData( _sectionIndex, _forEachIndex, EKB_DataConflictIndex );
-					EKB_SetData( _sIndex, _bIndex, EKB_DataHasConflict, false );
-					EKB_SetData( _sIndex, _bIndex, EKB_DataConflictSection, nil );
-					EKB_SetData( _sIndex, _bIndex, EKB_DataConflictIndex, nil );
-				};
-				EKB_SetData( _sectionIndex, _forEachIndex, EKB_DataHasConflict, false );
-				EKB_SetData( _sectionIndex, _forEachIndex, EKB_DataConflictSection, nil );
-				EKB_SetData( _sectionIndex, _forEachIndex, EKB_DataConflictIndex, nil );
-			};
-		}forEach +_data;
-
-		[ "SECTION", [ "LB_CHANGED", [ EKB_Section, _sectionIndex ] ] ] call LARs_fnc_EKB_EdenKeybinds;
-	};
-
-	//GET_USERKEY
-	case "GET_USERKEY" : {
-		params[ "_varName" ];
-
-		_value = profileNamespace getVariable[ "_varName", 0 ];
-
-		_AltShftCtrl = [ false, false, false ];
-		{
-			if ( _value >= _x ) then {
-				_value = _value - _x;
-				_AltShftCtrl set[ _forEachIndex, true ];
-			};
-		}forEach[
-			INPUT_ALT_OFFSET,		//2048
-			INPUT_SHIFT_OFFSET,		//1024
-			INPUT_CTRL_OFFSET		//512
-		];
-
-		( [ _value ] + _AltShftCtrl )
-	};
-
-	//REGISTER_KEY
-	case "REGISTER_KEY" : {
-		params[
-			[ "_sectionName", "", [ "" ] ],
-			[ "_keyData", [], [ [] ] ]
-		];
-
-		if ( _sectionName isEqualTo "" || _keyData isEqualTo [] ) exitWith{ false };
-
-		_keyData params[
-			[ "_bindName", "NO TITLE", [ "" ] ],
-			[ "_description", "NO DESCRIPTION", [ "" ] ],
-			[ "_varName", "", [ "" ] ],
-			[ "_dikCode", -1, [ 0 ] ],
-			[ "_modifiers", [ false, false, false ], [ [] ] ],
-			[ "_keyEvent", "up", [ "" ] ],
-			[ "_keyFunction", "", [ "" ] ],
-			[ "_keyFunctionNamespace", missionNamespace, [ missionNamespace ] ]
-		];
-
-		private _missionKeys = missionNamespace getVariable[ "LARs_EKB_missionKeys", [] ];
-
-		private _index = {
-			if ( ( _x select 0 ) == "_sectionName" ) exitWith { _forEachIndex };
-		}forEach _missionKeys;
-
-		if ( isNil "_index" ) then{
-			_index = _missionKeys pushBack [ _sectionName, [] ];
 		};
-
-		_keyEvent = [ "up", toLower _keyEvent ] select ( toLower _keyEvent in [ "up", "down" ] );
-
-		_keyFunctionNamespace = [ missionNamespace, _keyFunctionNamespace ] select ( _keyFunctionNamespace isEqualType missionNamespace );
-		_keyFunction = if ( !( _keyFunction isEqualTo "" ) ) then {
-			private _keyFunctionCode = call compile format[ "%1 getVariable %2", _keyFunctionNamespace, str _keyFunction ];
-			if ( !( isNil "_keyFunctionCode" ) && { _keyFunctionCode isEqualType {} } ) then {
-				_keyFunction
-			}else{
-				""
-			};
-		}else{
-			""
-		};
-
-		//TODO: need to add registered key to LARs_keybinds_data and perform initialisation of key event handler for those keys that have a function
-
-		private _nul = ( _missionKeys select _index select 1 ) pushBack [ _bindName, _description, _varName, _dikCode, _modifiers, _keyEvent, _keyFunction, _keyFunctionNamespace ];
-		missionNamespace setVariable[ "LARs_EKB_missionKeys", _missionKeys ];
-
-		true
 	};
+
+
+	case "KEY" : {
+		params[ "_fnc", "_this" ];
+
+		switch ( _fnc ) do {
+
+			//GET
+			case "GET" : {
+				params[ "_varName", [ "_default", 0 ] ];
+
+				_value = profileNamespace getVariable[ _varName, _default ];
+
+				_AltShftCtrl = [ false, false, false ];
+				{
+					if ( _value >= _x ) then {
+						_value = _value - _x;
+						_AltShftCtrl set[ _forEachIndex, true ];
+					};
+				}forEach[
+					INPUT_ALT_OFFSET,		//2048
+					INPUT_SHIFT_OFFSET,		//1024
+					INPUT_CTRL_OFFSET		//512
+				];
+
+				( [ _value ] + _AltShftCtrl )
+			};
+
+			//REGISTER
+			case "REGISTER" : {
+				params[
+					[ "_sectionName", "", [ "" ] ],
+					[ "_keyData", [], [ [] ] ]
+				];
+
+				if ( _sectionName isEqualTo "" || _keyData isEqualTo [] ) exitWith{ false };
+
+				_keyData params[
+					[ "_bindName", "NO TITLE", [ "" ] ],
+					[ "_description", "NO DESCRIPTION", [ "" ] ],
+					[ "_varName", "", [ "" ] ],
+					[ "_dikCode", -1, [ 0 ] ],
+					[ "_modifiers", [ false, false, false ], [ [] ] ],
+					[ "_keyEvent", "up", [ "" ] ],
+					[ "_keyFunction", "", [ "" ] ],
+					[ "_keyFunctionNamespace", missionNamespace, [ missionNamespace ] ]
+				];
+
+				private _customKeys = missionNamespace getVariable[ "LARs_EKB_customKeys", [] ];
+
+				private _index = _customKeys findIf{ ( _x select 0 ) == _sectionName };
+
+				if ( _index isEqualTo -1 ) then {
+					_index = _customKeys pushBack [ _sectionName, [] ];
+				};
+
+				_keyEvent = [ "up", toLower _keyEvent ] select ( toLower _keyEvent in [ "up", "down" ] );
+
+				_keyFunctionNamespace = [ missionNamespace, _keyFunctionNamespace ] select ( _keyFunctionNamespace isEqualType missionNamespace );
+				_keyFunctionNamespace getVariable [ _keyFunction, {} ];
+
+				//TODO: need to add registered key to LARs_keybinds_data and perform initialisation of key event handler for those keys that have a function
+
+				private _nul = ( _customKeys select _index select 1 ) pushBack [ _bindName, _description, _varName, _dikCode, _modifiers, _keyEvent, _keyFunction, _keyFunctionNamespace ];
+				missionNamespace setVariable[ "LARs_EKB_customKeys", _customKeys ];
+
+				true
+			};
+
+		};
+	};
+
 };

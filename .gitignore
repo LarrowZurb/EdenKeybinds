@@ -1,0 +1,9 @@
+
+*.prj
+*.pui
+EdenKeybinds/work/*.*
+desktop.ini
+*.hpp linguist-language=sqf
+*.cpp linguist-language=sqf
+*.gui linguist-language=sqf
+*.data linguist-language=sqf

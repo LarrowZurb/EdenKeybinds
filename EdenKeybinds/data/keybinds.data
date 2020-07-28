@@ -2,22 +2,22 @@
 //*****  MenuStrip
 class LARs_EdenKeybinds
 {
-	class ContextMenu
-	{
+//	class ContextMenu
+//	{
 //		class Sync
 //		{
 //			description = "Sync object";
 //			varName = "Eden_key_EntitySync";
 //			default[] = {};
 //		};
-
-		class SnapToSurface
-		{
-			description = "Snap selected object to surface";
-			varName = "Eden_key_EntitySnapToSurface";
-			default[] = {};
-		};
-	};
+//
+//		class SnapToSurface
+//		{
+//			description = "Snap selected object to surface";
+//			varName = "Eden_key_EntitySnapToSurface";
+//			default[] = {};
+//		};
+//	};
 	class File
 	{
 		class MissionNew
@@ -111,6 +111,13 @@ class LARs_EdenKeybinds
 		{
 			description = "Export mission to terrain builder";
 			varName = "Eden_key_MissionTerrainBuilder";
+			default[] = {};
+		};
+
+		class MissionExportSQF
+		{
+			description = "Export mission to SQF";
+			varName = "Eden_key_MissionExportSQF";
 			default[] = {};
 		};
 	};
@@ -218,26 +225,26 @@ class LARs_EdenKeybinds
 			default[] = { 6 };
 		};
 
-		class WidgetSpace
-		{
-			description = "Toggle widget space";
-			varName = "Eden_key_WidgetSpace";
-			default[] = { 34 };
-		};
-
-		class WidgetSpaceWorld
-		{
-			description = "Widget space world";
-			varName = "Eden_key_WidgetSpaceWorld";
-			default[] = {};
-		};
-
-		class WidgetSpaceLocal
-		{
-			description = "Widget space local";
-			varName = "Eden_key_WidgetSpaceLocal";
-			default[] = {};
-		};
+//		class WidgetSpace
+//		{
+//			description = "Toggle widget space";
+//			varName = "Eden_key_WidgetSpace";
+//			default[] = { 34 };
+//		};
+//
+//		class WidgetSpaceWorld
+//		{
+//			description = "Widget space world";
+//			varName = "Eden_key_WidgetSpaceWorld";
+//			default[] = {};
+//		};
+//
+//		class WidgetSpaceLocal
+//		{
+//			description = "Widget space local";
+//			varName = "Eden_key_WidgetSpaceLocal";
+//			default[] = {};
+//		};
 
 //		class WidgetPosition
 //		{
@@ -633,6 +640,20 @@ class LARs_EdenKeybinds
 		{
 			description = "Animation viewer";
 			varName = "Eden_key_AnimationViewer";
+			default[] = {};
+		};
+
+		class SplendidCamera
+		{
+			description = "Animation viewer";
+			varName = "Eden_key_SplendidCamera";
+			default[] = {};
+		};
+
+		class FieldManual
+		{
+			description = "Animation viewer";
+			varName = "Eden_key_FieldManual";
 			default[] = {};
 		};
 	};
